@@ -18,12 +18,14 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
+import ru.gusev.dao.DevDAO;
 import ru.gusev.models.JsonDeserialization;
 import ru.gusev.models.Values;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Iterator;
 
 @SpringBootApplication
@@ -73,6 +75,13 @@ public class MqttJavaApplication {
                 System.out.println(jsonDeserialization.dev1.get(0).values.pressure);
                 System.out.println(jsonDeserialization.dev1.get(0).values.temperature);
                 System.out.println(jsonDeserialization.dev1.get(0).values.humidity);
+                try {
+                    DevDAO.rec((int) jsonDeserialization.dev1.get(0).ts, jsonDeserialization.dev1.get(0).values.pressure,
+                            jsonDeserialization.dev1.get(0).values.temperature,
+                            jsonDeserialization.dev1.get(0).values.humidity);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
 
 
             }
