@@ -54,6 +54,12 @@ public class MqttJavaApplication {
         return adapter;
     }
 
+
+
+
+
+
+
     @Bean
     @ServiceActivator(inputChannel = "mqttInputChannel")
     public MessageHandler handler() {
@@ -87,6 +93,7 @@ public class MqttJavaApplication {
             }
         };
     }
+
 }
 
 

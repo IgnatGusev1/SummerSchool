@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Watch</title>
+</head>
+<body>
+<h1>Statistic</h1>
+<div th:each="devDAO : ${devDAO}">
+    <a th:text="'id: ' +${devDAO.getTs() + ', temp: ' +  devDAO.getTemperature()  + ', hum: ' +
+    devDAO.getHumidity() + ', pres: ' + devDAO.getPressure()}">user</a>
+</div>
+<a href="/people">Home</a><br>
+<form th:method="DELETE" th:action="@{/statistic}">
+    <input type="submit" value="Delete"/>
+</form>
+
+</body>
+</html>

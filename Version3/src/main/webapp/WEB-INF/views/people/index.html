@@ -5,16 +5,19 @@
     <title>Index</title>
 </head>
 <body>
-
+<h1>Accounts</h1>
 <div th:each="person : ${people}">
     <a th:href="@{/people/{id}(id=${person.getId()})}"
-       th:text="${person.getName() + ', ' + person.getAge()}">user</a>
+       th:text="${person.getName() + ', ' + person.getId()}">user</a>
+
 </div>
 
 <br/>
 <hr/>
 
-<a href="/people/new">Create new person</a>
+<a href="/statistic">Statistic</a><br>
+<a href="/people/new">Create new acc</a>
+
 
 </body>
 </html>

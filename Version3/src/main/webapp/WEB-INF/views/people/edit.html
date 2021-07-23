@@ -5,7 +5,7 @@
     <title>UpdatePerson</title>
 </head>
 <body>
-
+<h1>Edit</h1>
 <form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
     <label for="name">Enter name</label>
     <input type="text" th:field="*{name}" id="name"/>
@@ -15,13 +15,14 @@
     <input type="text" th:field="*{age}" id="age"/>
     <div style="color: crimson" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age error</div>
     <br/>
-    <label for="email">Enter name</label>
+    <label for="email">Enter email</label>
     <input type="text" th:field="*{email}" id="email"/>
     <div style="color: crimson" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
     <br/>
 
     <input type="submit" value="Update"/>
 </form>
+<a href="/people">Home</a>
 
 </body>
 </html>

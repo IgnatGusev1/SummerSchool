@@ -1,5 +1,6 @@
 package ru.gusev.dao;
 
+import org.springframework.stereotype.Component;
 import ru.gusev.models.Dev1;
 import ru.gusev.models.DevModelBd;
 
@@ -7,6 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class DevDAO {
 
     private static final String URL = "jdbc:postgresql://localhost:5432/Ts";
@@ -36,10 +38,11 @@ public class DevDAO {
     }
 
     public List<DevModelBd> index() throws SQLException {
-        List<DevModelBd> dev = new ArrayList<>();
+        List<DevModelBd> devDAO = new ArrayList<>();
 
         Statement statement = connection.createStatement();
         String SQL = "SELECT * FROM dev";
+
         ResultSet resultSet = statement.executeQuery(SQL);
 
         while (resultSet.next()){
@@ -50,11 +53,42 @@ public class DevDAO {
             devModelBd.setHumidity(resultSet.getInt("humidity"));
             devModelBd.setPressure(resultSet.getInt("pressure"));
 
-            dev.add(devModelBd);
+            devDAO.add(devModelBd);
         }
-        return dev;
+        return devDAO;
 
     }
+
+    public static Integer [] ArrayFromSQL() throws SQLException {
+        List<Integer> array = new ArrayList<>();
+        Statement statement = connection.createStatement();
+        String SQL = "SELECT temerature * FROM dev";
+        ResultSet resultSet = statement.executeQuery(SQL);
+
+        while (resultSet.next()){
+
+            array.add(resultSet.getInt("temperature"));
+        }
+        return array.toArray(new Integer[array.size()]);
+
+
+    }
+
+    public void delete(){
+
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("DELETE FROM dev");
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+
+    }
+
+
+
 
 
 }

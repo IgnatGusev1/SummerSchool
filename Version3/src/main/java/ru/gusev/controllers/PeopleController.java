@@ -6,17 +6,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.gusev.dao.DevDAO;
 import ru.gusev.dao.PersonDAO;
 import ru.gusev.models.Person;
 
 import javax.validation.Valid;
+import java.sql.SQLException;
 
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
 
 
+
     private final PersonDAO personDAO;
+
+
 
     @Autowired
     public PeopleController(PersonDAO personDAO) {
@@ -24,13 +29,13 @@ public class PeopleController {
     }
 
     @GetMapping()
-    public String index(Model model) {
+    public String index(Model model) throws SQLException {
         model.addAttribute("people", personDAO.index());
         return "people/index";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model){
+    public String show(@PathVariable("id") int id, Model model) throws SQLException {
         model.addAttribute("person", personDAO.show(id));
         return "people/show";
     }
@@ -71,6 +76,9 @@ public class PeopleController {
         personDAO.delete(id);
         return "redirect:/people";
     }
+
+
+
 
 
 }

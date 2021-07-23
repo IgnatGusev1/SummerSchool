@@ -30,28 +30,24 @@ public class PersonDAO {
         }
     }
 
-    public List<Person> index() {
+    public List<Person> index() throws SQLException {
         List<Person> people = new ArrayList<>();
 
-        try {
-            Statement statement = connection.createStatement();
-            String SQL = "SELECT * FROM Person";
-            ResultSet resultSet = statement.executeQuery(SQL);
 
-            while(resultSet.next()){
-                Person person = new Person();
-                person.setId(resultSet.getInt("id"));
-                person.setName(resultSet.getString("name"));
-                person.setAge(resultSet.getInt("age"));
-                person.setEmail(resultSet.getString("email"));
+        Statement statement = connection.createStatement();
+        String SQL = "SELECT * FROM Person";
+        ResultSet resultSet = statement.executeQuery(SQL);
 
-                people.add(person);
-            }
+        while(resultSet.next()){
+            Person person = new Person();
+            person.setId(resultSet.getInt("id"));
+            person.setName(resultSet.getString("name"));
+            person.setAge(resultSet.getInt("age"));
+            person.setEmail(resultSet.getString("email"));
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-
+            people.add(person);
         }
+
         return people;
     }
 
@@ -81,11 +77,13 @@ public class PersonDAO {
 
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Person VALUES (1,?,?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Person VALUES (?,?,?,?)");
 
-            preparedStatement.setString(1, person.getName());
-            preparedStatement.setInt(2, person.getAge());
-            preparedStatement.setString(3, person.getEmail());
+            person.setId(++people_count);
+            preparedStatement.setInt(1, person.getId());
+            preparedStatement.setString(2, person.getName());
+            preparedStatement.setInt(3, person.getAge());
+            preparedStatement.setString(4, person.getEmail());
 
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
